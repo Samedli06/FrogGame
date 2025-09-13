@@ -156,39 +156,51 @@ function App() {
   }, [userCode]);
 
   const checkCompletion = () => {
-    // Extract CSS properties from user code
-    const userProperties = extractCSSProperties(userCode);
-    const targetProperties = extractCSSProperties(level.targetCode);
+    // Simple string-based checking for each level
+    let isComplete = false;
     
-    // Check if all target properties are present in user code
-    const isComplete = targetProperties.every(targetProp => 
-      userProperties.some(userProp => 
-        userProp.property === targetProp.property && 
-        userProp.value === targetProp.value
-      )
-    );
+    const normalizedUserCode = userCode.toLowerCase().replace(/\s+/g, ' ').trim();
+    
+    switch (level.id) {
+      case 1:
+      case 3:
+        isComplete = normalizedUserCode.includes('justify-content: flex-end');
+        break;
+      case 2:
+        isComplete = normalizedUserCode.includes('justify-content: center');
+        break;
+      case 4:
+        isComplete = normalizedUserCode.includes('justify-content: space-between');
+        break;
+      case 5:
+        isComplete = normalizedUserCode.includes('align-items: flex-end');
+        break;
+      case 6:
+        isComplete = normalizedUserCode.includes('justify-content: center') && 
+                    normalizedUserCode.includes('align-items: center');
+        break;
+      case 7:
+        isComplete = normalizedUserCode.includes('justify-content: space-around') && 
+                    normalizedUserCode.includes('align-items: flex-end');
+        break;
+      case 8:
+        isComplete = normalizedUserCode.includes('flex-direction: column');
+        break;
+      case 9:
+        isComplete = normalizedUserCode.includes('flex-direction: column-reverse') && 
+                    normalizedUserCode.includes('justify-content: flex-start');
+        break;
+      case 10:
+        isComplete = normalizedUserCode.includes('order: 2') && 
+                    normalizedUserCode.includes('order: 1');
+        break;
+      default:
+        isComplete = false;
+    }
     
     setIsCompleted(isComplete);
   };
 
-  const extractCSSProperties = (cssCode: string) => {
-    const properties: Array<{property: string, value: string}> = [];
-    
-    // Remove comments and normalize whitespace
-    const cleanCode = cssCode.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s+/g, ' ').trim();
-    
-    // Extract property-value pairs
-    const propertyRegex = /([a-z-]+)\s*:\s*([^;]+)/gi;
-    let match;
-    
-    while ((match = propertyRegex.exec(cleanCode)) !== null) {
-      const property = match[1].trim().toLowerCase();
-      const value = match[2].trim().toLowerCase();
-      properties.push({ property, value });
-    }
-    
-    return properties;
-  };
 
   const resetCode = () => {
     setUserCode(level.initialCode);
