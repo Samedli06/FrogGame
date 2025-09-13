@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, RotateCcw, Bot } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, RotateCcw, Bot, Star } from 'lucide-react';
 
 interface Level {
   id: number;
@@ -142,6 +142,7 @@ function App() {
   const [userCode, setUserCode] = useState('');
   const [isCompleted, setIsCompleted] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  const [completedLevels, setCompletedLevels] = useState(0);
 
   const level = levels[currentLevel];
 
@@ -207,6 +208,9 @@ function App() {
 
   const nextLevel = () => {
     if (currentLevel < levels.length - 1) {
+      if (isCompleted && currentLevel + 1 > completedLevels) {
+        setCompletedLevels(currentLevel + 1);
+      }
       setCurrentLevel(currentLevel + 1);
     }
   };
@@ -217,17 +221,14 @@ function App() {
     }
   };
 
-  const getRobotStyle = (robotId: number) => {
+  const getRobotStyle = () => {
     const baseStyle = "w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 transition-all duration-500 ease-in-out flex items-center justify-center flex-shrink-0";
     return isCompleted ? `${baseStyle} text-green-400` : `${baseStyle} text-blue-500`;
   };
 
-  const getPadStyle = () => {
-    return "w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg bg-green-200 border-2 border-green-400 opacity-70 flex-shrink-0";
-  };
-
   return (
     <div className="min-h-screen" style={{background: '#F0D6FFC2'}}>
+      <style dangerouslySetInnerHTML={{ __html: userCode }} />
       <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-6 max-w-7xl">
         {/* Header */}
         <header className="text-center mb-4 sm:mb-6 md:mb-8">
@@ -326,59 +327,29 @@ function App() {
           <div className="space-y-4 sm:space-y-6 order-1 xl:order-2">
             {/* Game Board */}
             <div className="bg-white rounded-xl shadow-lg p-3 sm:p-4 md:p-6">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Charging Station</h3>
+              <div className="flex justify-between items-center mb-3 sm:mb-4">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-800">Charging Station</h3>
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: levels.length }).map((_, index) => (
+                    <Star
+                      key={index}
+                      className={`w-4 h-4 sm:w-5 sm:h-5 ${index < completedLevels ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                    />
+                  ))}
+                </div>
+              </div>
               
               <div className="relative">
                 <div 
                   id="pond"
-                  className="bg-gradient-to-br from-blue-100 to-cyan-100 rounded-xl p-4 sm:p-6 md:p-8 min-h-48 sm:min-h-56 md:min-h-64 border-2 border-blue-200"
-                  style={{
-                    display: 'flex',
-                    ...(userCode && (() => {
-                      const style: any = {};
-                      const cssRules = userCode.match(/[^{}]+{[^}]*}/g) || [];
-                      
-                      cssRules.forEach(rule => {
-                        if (rule.includes('#pond') || rule.includes('display: flex')) {
-                          const declarations = rule.split('{')[1]?.replace('}', '') || '';
-                          declarations.split(';').forEach(decl => {
-                            const [prop, value] = decl.split(':').map(s => s.trim());
-                            if (prop && value) {
-                              const camelCaseProp = prop.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
-                              style[camelCaseProp] = value;
-                            }
-                          });
-                        }
-                      });
-                      return style;
-                    })())
-                  }}
+                  className="bg-green-100 rounded-xl p-4 sm:p-6 md:p-8 min-h-48 sm:min-h-56 md:min-h-64 border-2 border-green-300"
+                  style={{ display: 'flex' }}
                 >
                   {/* Robots */}
-                  {level.robots.map((robot, index) => (
+                  {level.robots.map((robot) => (
                     <div
                       key={robot.id}
-                      className={`robot${robot.id} ${getRobotStyle(robot.id)}`}
-                      style={{
-                        ...(userCode && (() => {
-                          const style: any = {};
-                          const cssRules = userCode.match(/[^{}]+{[^}]*}/g) || [];
-                          
-                          cssRules.forEach(rule => {
-                            if (rule.includes(`.robot${robot.id}`)) {
-                              const declarations = rule.split('{')[1]?.replace('}', '') || '';
-                              declarations.split(';').forEach(decl => {
-                                const [prop, value] = decl.split(':').map(s => s.trim());
-                                if (prop && value) {
-                                  const camelCaseProp = prop.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
-                                  style[camelCaseProp] = value;
-                                }
-                              });
-                            }
-                          });
-                          return style;
-                        })())
-                      }}
+                      className={`robot${robot.id} ${getRobotStyle()}`}
                     >
                       <img 
                         src="/assets/robot.png" 
@@ -394,19 +365,19 @@ function App() {
                   className="absolute inset-0 rounded-xl p-4 sm:p-6 md:p-8 pointer-events-none"
                   style={{
                     display: 'flex',
-                    justifyContent: level.pads.length === 1 ? 
-                      (level.id === 2 ? 'center' : 'flex-end') : 
-                      (level.id === 4 ? 'space-between' : 
-                       level.id === 7 ? 'space-around' : 'space-between'),
-                    alignItems: level.id >= 5 ? 'flex-end' : 'flex-start',
-                    flexDirection: level.id >= 8 ? 'column' : 'row',
-                    ...(level.id === 9 && { flexDirection: 'column-reverse' as any })
+                    justifyContent: level.targetCode.includes('space-between') ? 'space-between' : level.targetCode.includes('space-around') ? 'space-around' : level.targetCode.includes('center') ? 'center' : level.targetCode.includes('flex-end') ? 'flex-end' : 'flex-start',
+                    alignItems: level.targetCode.includes('align-items: flex-end') ? 'flex-end' : level.targetCode.includes('align-items: center') ? 'center' : 'flex-start',
+                    flexDirection: level.targetCode.includes('column-reverse') ? 'column-reverse' : level.targetCode.includes('column') ? 'column' : 'row'
                   }}
                 >
-                  {level.pads.map((pad) => (
-                    <div key={pad} className={getPadStyle()}></div>
+                  {level.pads.map((padId) => (
+                    <div key={padId} className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center flex-shrink-0">
+                      <Star className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-yellow-400 opacity-50" />
+                    </div>
                   ))}
                 </div>
+
+
               </div>
             </div>
 
