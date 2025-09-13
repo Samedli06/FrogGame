@@ -345,7 +345,7 @@ function App() {
                       <img 
                         src="/src/images/4b06e393fd0647c265b1282b0f006486 1.png" 
                         alt="Robot" 
-                        className="w-45 h-45 object-contain"
+                        className="w-44 h-44 object-contain"
                       />
                     </div>
                   ))}
