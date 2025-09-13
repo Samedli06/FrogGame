@@ -342,7 +342,11 @@ function App() {
                         })())
                       }}
                     >
-                      <Bot className="w-6 h-6" />
+                      <img 
+                        src="/src/images/4b06e393fd0647c265b1282b0f006486 1.png" 
+                        alt="Robot" 
+                        className="w-6 h-6 object-contain"
+                      />
                     </div>
                   ))}
                 </div>
