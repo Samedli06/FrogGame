@@ -201,7 +201,6 @@ function App() {
     setIsCompleted(isComplete);
   };
 
-
   const resetCode = () => {
     setUserCode(level.initialCode);
   };
@@ -219,53 +218,53 @@ function App() {
   };
 
   const getRobotStyle = (robotId: number) => {
-    const baseStyle = "w-12 h-12 transition-all duration-500 ease-in-out flex items-center justify-center flex-shrink-0";
+    const baseStyle = "w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 transition-all duration-500 ease-in-out flex items-center justify-center flex-shrink-0";
     return isCompleted ? `${baseStyle} text-green-400` : `${baseStyle} text-blue-500`;
   };
 
   const getPadStyle = () => {
-    return "w-12 h-12 rounded-lg bg-green-200 border-2 border-green-400 opacity-70 flex-shrink-0";
+    return "w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg bg-green-200 border-2 border-green-400 opacity-70 flex-shrink-0";
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-50 to-blue-100">
-      <div className="container mx-auto px-4 py-6 max-w-6xl">
+      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-6 max-w-7xl">
         {/* Header */}
-        <header className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <Bot className="w-8 h-8 text-blue-600" />
-            <h1 className="text-4xl font-bold text-gray-800">Flexbox Robot</h1>
+        <header className="text-center mb-4 sm:mb-6 md:mb-8">
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2">
+            <Bot className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-blue-600" />
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">Flexbox Robot</h1>
           </div>
-          <p className="text-gray-600">A game for learning CSS flexbox by MYNERA</p>
+          <p className="text-sm sm:text-base text-gray-600">A game for learning CSS flexbox by MYNERA</p>
         </header>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="flex flex-col xl:grid xl:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
           {/* Instructions Panel */}
-          <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-800">
+          <div className="space-y-4 sm:space-y-6 order-2 xl:order-1">
+            <div className="bg-white rounded-xl shadow-lg p-3 sm:p-4 md:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:mb-4 gap-2">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
                   Level {level.id}: {level.title}
                 </h2>
-                <span className="text-sm text-gray-500">
+                <span className="text-xs sm:text-sm text-gray-500 self-start sm:self-auto">
                   {currentLevel + 1} of {levels.length}
                 </span>
               </div>
               
-              <p className="text-gray-700 leading-relaxed mb-4">
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-3 sm:mb-4">
                 {level.instruction}
               </p>
 
-              <div className="flex gap-2 mb-4">
+              <div className="flex flex-col sm:flex-row gap-2 mb-3 sm:mb-4">
                 <button
                   onClick={() => setShowHint(!showHint)}
-                  className="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-lg hover:bg-yellow-200 transition-colors font-medium"
+                  className="px-3 sm:px-4 py-2 bg-yellow-100 text-yellow-800 rounded-lg hover:bg-yellow-200 transition-colors font-medium text-sm sm:text-base"
                 >
                   {showHint ? 'Hide' : 'Show'} Hint
                 </button>
                 <button
                   onClick={resetCode}
-                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium flex items-center gap-2"
+                  className="px-3 sm:px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium flex items-center gap-2 text-sm sm:text-base justify-center sm:justify-start"
                 >
                   <RotateCcw className="w-4 h-4" />
                   Reset
@@ -273,8 +272,8 @@ function App() {
               </div>
 
               {showHint && (
-                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
-                  <pre className="text-sm text-yellow-800 whitespace-pre-wrap font-mono">
+                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 sm:p-4 mb-3 sm:mb-4">
+                  <pre className="text-xs sm:text-sm text-yellow-800 whitespace-pre-wrap font-mono overflow-x-auto">
                     {level.hint}
                   </pre>
                 </div>
@@ -283,13 +282,13 @@ function App() {
 
             {/* Code Editor */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-              <div className="bg-gray-800 text-white px-4 py-2 text-sm font-medium">
+              <div className="bg-gray-800 text-white px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium">
                 CSS Editor
               </div>
               <textarea
                 value={userCode}
                 onChange={(e) => setUserCode(e.target.value)}
-                className="w-full h-64 p-4 font-mono text-sm bg-gray-900 text-green-400 resize-none focus:outline-none border-none"
+                className="w-full h-48 sm:h-56 md:h-64 p-3 sm:p-4 font-mono text-xs sm:text-sm bg-gray-900 text-green-400 resize-none focus:outline-none border-none"
                 placeholder="Write your CSS here..."
                 style={{
                   fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace',
@@ -302,16 +301,16 @@ function App() {
                 autoCapitalize="off"
               />
               {isCompleted && (
-                <div className="bg-green-50 border-t border-green-200 px-4 py-3">
-                  <div className="flex items-center justify-between">
+                <div className="bg-green-50 border-t border-green-200 px-3 sm:px-4 py-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <span className="text-green-800 font-medium">Level Complete!</span>
+                      <span className="text-green-800 font-medium text-sm sm:text-base">Level Complete!</span>
                     </div>
                     {currentLevel < levels.length - 1 && (
                       <button
                         onClick={nextLevel}
-                        className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium flex items-center gap-2"
+                        className="px-3 sm:px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium flex items-center gap-2 text-sm sm:text-base justify-center sm:justify-start"
                       >
                         Next Level
                         <ChevronRight className="w-4 h-4" />
@@ -324,15 +323,15 @@ function App() {
           </div>
 
           {/* Game Area */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6 order-1 xl:order-2">
             {/* Game Board */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Charging Station</h3>
+            <div className="bg-white rounded-xl shadow-lg p-3 sm:p-4 md:p-6">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Charging Station</h3>
               
               <div className="relative">
                 <div 
                   id="pond"
-                  className="bg-gradient-to-br from-blue-100 to-cyan-100 rounded-xl p-8 min-h-64 border-2 border-blue-200"
+                  className="bg-gradient-to-br from-blue-100 to-cyan-100 rounded-xl p-4 sm:p-6 md:p-8 min-h-48 sm:min-h-56 md:min-h-64 border-2 border-blue-200"
                   style={{
                     display: 'flex',
                     ...(userCode && (() => {
@@ -384,7 +383,7 @@ function App() {
                       <img 
                         src="/src/images/4b06e393fd0647c265b1282b0f006486 1.png" 
                         alt="Robot" 
-                        className="w-11 h-11 object-contain"
+                        className="w-6 h-6 sm:w-8 sm:h-8 md:w-11 md:h-11 object-contain"
                       />
                     </div>
                   ))}
@@ -392,7 +391,7 @@ function App() {
 
                 {/* Target positions overlay */}
                 <div 
-                  className="absolute inset-0 rounded-xl p-8 pointer-events-none"
+                  className="absolute inset-0 rounded-xl p-4 sm:p-6 md:p-8 pointer-events-none"
                   style={{
                     display: 'flex',
                     justifyContent: level.pads.length === 1 ? 
@@ -412,22 +411,23 @@ function App() {
             </div>
 
             {/* Navigation */}
-            <div className="flex justify-between items-center bg-white rounded-xl shadow-lg p-4">
+            <div className="flex justify-between items-center bg-white rounded-xl shadow-lg p-3 sm:p-4">
               <button
                 onClick={prevLevel}
                 disabled={currentLevel === 0}
-                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 sm:px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
               >
                 <ChevronLeft className="w-4 h-4" />
-                Previous
+                <span className="hidden sm:inline">Previous</span>
+                <span className="sm:hidden">Prev</span>
               </button>
 
-              <div className="flex gap-1">
+              <div className="flex gap-1 overflow-x-auto max-w-40 sm:max-w-none">
                 {levels.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentLevel(index)}
-                    className={`w-3 h-3 rounded-full transition-colors ${
+                    className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-colors flex-shrink-0 ${
                       index === currentLevel 
                         ? 'bg-blue-600' 
                         : index < currentLevel 
@@ -441,9 +441,10 @@ function App() {
               <button
                 onClick={nextLevel}
                 disabled={currentLevel === levels.length - 1 || !isCompleted}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
               >
-                Next
+                <span className="hidden sm:inline">Next</span>
+                <span className="sm:hidden">Next</span>
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
@@ -451,8 +452,8 @@ function App() {
         </div>
 
         {/* Footer */}
-        <footer className="text-center mt-12 text-gray-600">
-          <p>Learn CSS Flexbox by helping robots reach their charging stations!</p>
+        <footer className="text-center mt-8 sm:mt-12 text-gray-600">
+          <p className="text-sm sm:text-base">Learn CSS Flexbox by helping robots reach their charging stations!</p>
         </footer>
       </div>
     </div>
