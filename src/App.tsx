@@ -156,11 +156,38 @@ function App() {
   }, [userCode]);
 
   const checkCompletion = () => {
-    const normalizedUserCode = userCode.replace(/\s+/g, ' ').toLowerCase().trim();
-    const normalizedTargetCode = level.targetCode.replace(/\s+/g, ' ').toLowerCase().trim();
+    // Extract CSS properties from user code
+    const userProperties = extractCSSProperties(userCode);
+    const targetProperties = extractCSSProperties(level.targetCode);
     
-    const isComplete = normalizedUserCode.includes(normalizedTargetCode.replace(/\n/g, ''));
+    // Check if all target properties are present in user code
+    const isComplete = targetProperties.every(targetProp => 
+      userProperties.some(userProp => 
+        userProp.property === targetProp.property && 
+        userProp.value === targetProp.value
+      )
+    );
+    
     setIsCompleted(isComplete);
+  };
+
+  const extractCSSProperties = (cssCode: string) => {
+    const properties: Array<{property: string, value: string}> = [];
+    
+    // Remove comments and normalize whitespace
+    const cleanCode = cssCode.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s+/g, ' ').trim();
+    
+    // Extract property-value pairs
+    const propertyRegex = /([a-z-]+)\s*:\s*([^;]+)/gi;
+    let match;
+    
+    while ((match = propertyRegex.exec(cleanCode)) !== null) {
+      const property = match[1].trim().toLowerCase();
+      const value = match[2].trim().toLowerCase();
+      properties.push({ property, value });
+    }
+    
+    return properties;
   };
 
   const resetCode = () => {
