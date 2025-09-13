@@ -236,7 +236,7 @@ function App() {
             <Bot className="w-8 h-8 text-blue-600" />
             <h1 className="text-4xl font-bold text-gray-800">Flexbox Robot</h1>
           </div>
-          <p className="text-gray-600">A game for learning CSS flexbox</p>
+          <p className="text-gray-600">A game for learning CSS flexbox by MYNERA</p>
         </header>
 
         <div className="grid lg:grid-cols-2 gap-8">
