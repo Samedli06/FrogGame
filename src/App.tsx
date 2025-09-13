@@ -180,12 +180,12 @@ function App() {
   };
 
   const getRobotStyle = (robotId: number) => {
-    const baseStyle = "w-8 h-8 transition-all duration-500 ease-in-out flex items-center justify-center";
+    const baseStyle = "w-32 h-32 transition-all duration-500 ease-in-out flex items-center justify-center";
     return isCompleted ? `${baseStyle} text-green-400` : `${baseStyle} text-blue-500`;
   };
 
   const getPadStyle = () => {
-    return "w-8 h-8 rounded-lg bg-green-200 border-2 border-green-400 opacity-70";
+    return "w-24 h-24 rounded-lg bg-green-200 border-4 border-green-400 opacity-70";
   };
 
   return (
@@ -293,7 +293,7 @@ function App() {
               <div className="relative">
                 <div 
                   id="pond"
-                  className="bg-gradient-to-br from-blue-100 to-cyan-100 rounded-xl p-8 min-h-64 border-2 border-blue-200"
+                  className="bg-gradient-to-br from-blue-100 to-cyan-100 rounded-xl p-16 min-h-96 border-2 border-blue-200"
                   style={{
                     display: 'flex',
                     ...(userCode && (() => {
@@ -345,7 +345,7 @@ function App() {
                       <img 
                         src="/src/images/4b06e393fd0647c265b1282b0f006486 1.png" 
                         alt="Robot" 
-                        className="w-44 h-44 object-contain"
+                        className="w-28 h-28 object-contain"
                       />
                     </div>
                   ))}
@@ -353,7 +353,7 @@ function App() {
 
                 {/* Target positions overlay */}
                 <div 
-                  className="absolute inset-0 rounded-xl p-8 pointer-events-none"
+                  className="absolute inset-0 rounded-xl p-16 pointer-events-none"
                   style={{
                     display: 'flex',
                     justifyContent: level.pads.length === 1 ? 
