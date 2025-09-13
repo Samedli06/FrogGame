@@ -227,7 +227,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cyan-50 to-blue-100">
+    <div className="min-h-screen" style={{background: '#F0D6FFC2'}}>
       <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-6 max-w-7xl">
         {/* Header */}
         <header className="text-center mb-4 sm:mb-6 md:mb-8">
@@ -381,7 +381,7 @@ function App() {
                       }}
                     >
                       <img 
-                        src="/src/images/4b06e393fd0647c265b1282b0f006486 1.png" 
+                        src="/assets/robot.png" 
                         alt="Robot" 
                         className="w-6 h-6 sm:w-8 sm:h-8 md:w-11 md:h-11 object-contain"
                       />
